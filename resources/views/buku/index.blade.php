@@ -3,9 +3,13 @@
 @section('content')
     {{-- Pesan Sukses --}}
     @if (session()->has('success'))
-        <div class="alert alert-success mb-2" role="alert">
-            {{ session()->get('success') }}
-        </div>
+        <script>
+            Swal.fire({
+                title: "Sukses",
+                text: '{{ session()->get('success') }}',
+                icon: 'success',
+            });
+        </script>
     @endif
 
     <div class="card shadow mb-4">

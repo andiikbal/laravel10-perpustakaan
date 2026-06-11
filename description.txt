@@ -9,8 +9,21 @@ git clone alamat_clone_github (clone repository github ke komputer)
 git remote add origin alamat_repo_github (meremot repository digithub, jika dilokal sudah ada repo yang sama)
 git push -u origin master (kemudian masukkan data yang ada didalam repo komputer kita ke github)
 
-Melakukan Remote ke Repository di Github :
+==============================================
+** Melakukan Remote ke Repository di Github **
+==============================================
+Belum ada repo yang sama di komputer lokal :
 ============================================
+echo "# laravel10-perpustakaan" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/andiikbal/laravel10-perpustakaan.git
+git push -u origin main
+
+Sudah ada repo yang sama di komputer lokal :
+=============================================
 git remote add origin https://github.com/andiikbal/laravel10-perpustakaan.git
 git branch -M main
 git push -u origin main

@@ -3,9 +3,13 @@
 @section('content')
     {{-- Pesan Sukses --}}
     @if (session()->has('success'))
-        <div class="alert alert-success mb-2" role="alert">
-            {{ session()->get('success') }}
-        </div>
+        <script>
+            Swal.fire({
+                title: 'Sukses',
+                text: '{{ session('success') }}',
+                icon: 'success',
+            });
+        </script>
     @endif
 
     <div class="card shadow mb-4">
@@ -39,16 +43,17 @@
                                 <td>{{ $pengajuan->tanggal_pengajuan }}</td>
                                 @if ($profile->role === 'admin')
                                     <td>
-                                        <form action="/pengajuan/{{ $pengajuan->id }}/update" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('put')
-                                            <button type="submit" class="btn btn-success btn-sm">Setujui</button>
-                                        </form>
+                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                            data-target="#actionModal" data-method="put" data-title="setujui"
+                                            data-action="/pengajuan/{{ $pengajuan->id }}/update">
+                                            Setujui
+                                        </button>
 
                                         <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
-                                            data-target="#actionModal" data-method="put"
-                                            data-action="/pengajuan/{{ $pengajuan->id }}/batal">Batal</button>
+                                            data-target="#actionModal" data-method="put" data-title="batal"
+                                            data-action="/pengajuan/{{ $pengajuan->id }}/batal">
+                                            Batal
+                                        </button>
                                     </td>
                                 @endif
                             </tr>

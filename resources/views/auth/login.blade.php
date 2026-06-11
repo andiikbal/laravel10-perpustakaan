@@ -19,6 +19,10 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    {{-- SweetAlert2 --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.25/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.25/dist/sweetalert2.all.min.js"></script>
 </head>
 
 <body class="bg-gradient-primary">
@@ -40,44 +44,59 @@
 
                                     {{-- Pesan Error --}}
                                     @if (session()->has('error'))
-                                        <div class="alert alert-danger mb-3" role="alert">
-                                            {{ session()->get('error') }}
-                                        </div>
+                                        <script>
+                                            Swal.fire({
+                                                title: "Login Gagal",
+                                                text: '{{ session()->get('error') }}',
+                                                icon: 'error',
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    document.getElementById('email').focus();
+                                                }
+                                            });
+                                        </script>
                                     @endif
 
                                     {{-- Pesan Sukses --}}
                                     @if (session()->has('success'))
-                                        <div class="alert alert-success mb-3" role="alert">
-                                            {{ session()->get('success') }}
-                                        </div>
+                                        <script>
+                                            Swal.fire({
+                                                title: "Sukses",
+                                                text: '{{ session()->get('success') }}',
+                                                icon: 'success',
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    document.getElementById('email').focus();
+                                                }
+                                            });
+                                        </script>
                                     @endif
 
-                                    <form class="user" method="POST" action="/login">
-                                        @csrf
-                                        <div class="form-group">
-                                            <input type="text" name="email" id="email"
-                                                class="form-control form-control-user @error('email') is-invalid @enderror"
-                                                value="{{ old('email') }}" placeholder="Enter Email Address..."
+                                    <form class = "user" method = "POST" action = "/login">
+                                        @csrf <div class = "form-group">
+                                            <input type = "text" name = "email" id = "email"
+                                                class = "form-control form-control-user @error('email') is-invalid @enderror"
+                                                value = "{{ old('email') }}" placeholder = "Enter Email Address..."
                                                 autofocus>
                                             @error('email')
-                                                <div class="invalid-feedback mx-2">
+                                                <div class = "invalid-feedback mx-3">
                                                     {{ $message }}
                                                 </div>
                                             @enderror
                                         </div>
 
-                                        <div class="form-group">
-                                            <input type="password" name="password" id="password"
-                                                class="form-control form-control-user @error('password') is-invalid @enderror"
-                                                placeholder="Password">
+                                        <div class = "form-group">
+                                            <input type = "password" name = "password" id = "password"
+                                                class = "form-control form-control-user @error('password') is-invalid @enderror"
+                                                placeholder = "Password">
                                             @error('password')
-                                                <div class="invalid-feedback mx-3">
+                                                <div class = "invalid-feedback mx-3">
                                                     {{ $message }}
                                                 </div>
                                             @enderror
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        <button type = "submit" class = "btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
                                     </form>
@@ -90,7 +109,7 @@
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript-->
+    <!--Bootstrap core JavaScript-->
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
@@ -99,6 +118,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.25/dist/sweetalert2.all.min.js"></script>
 </body>
 
 </html>

@@ -11,7 +11,6 @@
             <div class="modal-footer">
                 <form action="" method="POST">
                     @csrf
-                    {{-- @method('DELETE') --}}
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <button class="btn btn-danger" type="submit" id="submit"></button>
                 </form>
