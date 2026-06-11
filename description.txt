@@ -1,0 +1,16 @@
+Code For Git :
+=======================
+git status (cek status)
+git add . (memindahkan)
+git commit -m "klau ada penambahan file pesan commit"
+git commit -am "klau ada perubahan file pesan commit"
+git push (untuk menambahkan perubahan ke github)
+git clone alamat_clone_github (clone repository github ke komputer)
+git remote add origin alamat_repo_github (meremot repository digithub, jika dilokal sudah ada repo yang sama)
+git push -u origin master (kemudian masukkan data yang ada didalam repo komputer kita ke github)
+
+Melakukan Remote ke Repository di Github :
+============================================
+git remote add origin https://github.com/andiikbal/laravel10-perpustakaan.git
+git branch -M main
+git push -u origin main
