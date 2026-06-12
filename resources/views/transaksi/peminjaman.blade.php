@@ -38,16 +38,21 @@
                                 <td>{{ $peminjaman->tanggal_peminjaman }}</td>
                                 @if ($profile->role === 'admin')
                                     <td>
-                                        {{-- <form action="/peminjaman/{{ $peminjaman->id }}/update" method="POST">
+                                        <form action="/peminjaman/{{ $peminjaman->id }}/update" method="POST"
+                                            class="d-inline" id="setujui-pengembalian-form-{{ $peminjaman->id }}">
                                             @csrf
                                             @method('put')
-                                            <button type="submit" class="btn btn-success btn-sm">Pengembalian</button>
-                                        </form> --}}
-                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                            <button type="button" class="btn btn-success btn-sm"
+                                                onclick="return confirmSetujuiPengembalian('{{ $peminjaman->id }}')">
+                                                Pengembalian
+                                            </button>
+                                        </form>
+
+                                        {{-- <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                                             data-target="#actionModal" data-method="put" data-title="pengembalian"
                                             data-action="/peminjaman/{{ $peminjaman->id }}/update">
                                             Pengembalian
-                                        </button>
+                                        </button> --}}
                                     </td>
                                 @endif
                             </tr>
@@ -59,10 +64,25 @@
     </div>
 @endsection
 
-@push('actionModal')
-    @include('layout.partials.action_modal')
-@endpush
 
 @push('scripts')
-    <script src="{{ asset('js/action-modal.js') }}"></script>
+    <script>
+        function confirmSetujuiPengembalian(id) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data buku yang telah dikembalikan tidak dapat diubah statusnya!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Setujui!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit form sesuai dengan id yang dikirim
+                    document.getElementById('setujui-pengembalian-form-' + id).submit();
+                }
+            })
+        }
+    </script>
 @endpush

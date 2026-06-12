@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Buku;
 use App\Models\Penerbit;
+use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -100,6 +101,12 @@ class BukuController extends Controller
     // delete buku
     public function destroy(Buku $buku)
     {
+        $jumlahTransaksi = Transaksi::where('buku_id', $buku->id)->count();
+
+        if ($jumlahTransaksi > 0) {
+            return redirect('/buku')->with('error', 'Data Buku tidak dapat dihapus karena masih memiliki transaksi.');
+        }
+
         $buku->delete();
         return redirect('/buku')->with('success', 'Data Buku berhasil dihapus.');
     }

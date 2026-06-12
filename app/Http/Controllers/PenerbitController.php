@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buku;
 use App\Models\Penerbit;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -85,6 +86,12 @@ class PenerbitController extends Controller
     // delete penerbit
     public function destroy(Penerbit $penerbit)
     {
+        $jumlahBuku = Buku::where('penerbit_id', $penerbit->id)->count();
+
+        if ($jumlahBuku > 0) {
+            return redirect('/penerbit')->with('error', 'Data Penerbit tidak dapat dihapus karena masih digunakan oleh beberapa buku.');
+        }
+
         $penerbit->delete();
         return redirect('/penerbit')->with('success', 'Data Penerbit berhasil dihapus.');
     }

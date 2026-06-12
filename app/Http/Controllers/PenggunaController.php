@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Transaksi;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class PenggunaController extends Controller
 {
@@ -114,6 +115,12 @@ class PenggunaController extends Controller
     // delete pengguna
     public function destroy(User $user)
     {
+        $jumlahTransaksi = Transaksi::where('user_id', $user->id)->count();
+
+        if ($jumlahTransaksi > 0) {
+            return redirect('/pengguna')->with('error', 'Data Pengguna tidak dapat dihapus karena masih memiliki transaksi.');
+        }
+
         $user->delete();
         return redirect('/pengguna')->with('success', 'Data Pengguna berhasil dihapus.');
     }

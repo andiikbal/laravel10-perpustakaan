@@ -43,17 +43,37 @@
                                 <td>{{ $pengajuan->tanggal_pengajuan }}</td>
                                 @if ($profile->role === 'admin')
                                     <td>
-                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                        <form action="/pengajuan/{{ $pengajuan->id }}/update" method="post"
+                                            class="d-inline" id="setujui-pengajuan-form-{{ $pengajuan->id }}">
+                                            @csrf
+                                            @method('put')
+                                            <button type="button" class="btn btn-success btn-sm"
+                                                onclick="return confirmSetujuiPengajuan('{{ $pengajuan->id }}')">
+                                                Setujui
+                                            </button>
+                                        </form>
+
+                                        <form action="/pengajuan/{{ $pengajuan->id }}/batal" method="post" class="d-inline"
+                                            id="batal-pengajuan-form-{{ $pengajuan->id }}">
+                                            @csrf
+                                            @method('put')
+                                            <button type="button" class="btn btn-warning btn-sm"
+                                                onclick="return confirmBatalPengajuan('{{ $pengajuan->id }}')">
+                                                Batal
+                                            </button>
+                                        </form>
+
+                                        {{-- <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                                             data-target="#actionModal" data-method="put" data-title="setujui"
                                             data-action="/pengajuan/{{ $pengajuan->id }}/update">
                                             Setujui
-                                        </button>
+                                        </button> --}}
 
-                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
+                                        {{-- <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
                                             data-target="#actionModal" data-method="put" data-title="batal"
                                             data-action="/pengajuan/{{ $pengajuan->id }}/batal">
                                             Batal
-                                        </button>
+                                        </button> --}}
                                     </td>
                                 @endif
                             </tr>
@@ -65,10 +85,46 @@
     </div>
 @endsection
 
-@push('actionModal')
-    @include('layout.partials.action_modal')
-@endpush
 
 @push('scripts')
-    <script src="{{ asset('js/action-modal.js') }}"></script>
+    <script>
+        // Fungsi untuk mengonfirmasi setujui pengajuan
+        function confirmSetujuiPengajuan(id) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data yang telah disetujui tidak dapat diubah statusnya!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Setujui!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit form sesuai dengan id yang dikirim
+                    document.getElementById('setujui-pengajuan-form-' + id).submit();
+                }
+            })
+        }
+
+
+        // Fungsi untuk mengonfirmasi batal pengajuan
+        function confirmBatalPengajuan(id) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data yang telah dibatalkan tidak dapat diubah statusnya!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Batalkan!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit form sesuai dengan id yang dikirim
+                    document.getElementById('batal-pengajuan-form-' + id).submit();
+                }
+            })
+        }
+    </script>
 @endpush
