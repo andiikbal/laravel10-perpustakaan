@@ -19,6 +19,10 @@ class PenggunaController extends Controller
     {
         $profile = User::find(session('id'));
 
+        if ($profile->role != 'admin') {
+            return redirect('/dashboard')->with('warning', 'Anda tidak memiliki akses ke halaman Pengguna.');
+        }
+
         return view('pengguna/index', [
             'title'     => 'Pengguna',
             'users'     => User::where('role', 'user')->get(),
@@ -31,6 +35,10 @@ class PenggunaController extends Controller
     public function create()
     {
         $profile = User::find(session('id'));
+
+        if ($profile->role != 'admin') {
+            return redirect('/dashboard')->with('warning', 'Anda tidak memiliki akses ke halaman Pengguna.');
+        }
 
         return view('pengguna/create', [
             'title'     => 'Pengguna',
@@ -85,6 +93,10 @@ class PenggunaController extends Controller
     public function edit(User $user)
     {
         $profile = User::find(session('id'));
+
+        if ($profile->role != 'admin') {
+            return redirect('/dashboard')->with('warning', 'Anda tidak memiliki akses ke halaman Pengguna.');
+        }
 
         return view('pengguna/edit', [
             'title' => 'Pengguna',

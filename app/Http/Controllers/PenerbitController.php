@@ -20,6 +20,10 @@ class PenerbitController extends Controller
     {
         $profile = User::find(session('id'));
 
+        if ($profile->role != 'admin') {
+            return redirect('/dashboard')->with('warning', 'Anda tidak memiliki akses ke halaman Penerbit.');
+        }
+
         return view('penerbit/index', [
             'title'     => 'Penerbit',
             'profile'   => $profile,
@@ -32,6 +36,10 @@ class PenerbitController extends Controller
     public function create()
     {
         $profile = User::find(session('id'));
+
+        if ($profile->role != 'admin') {
+            return redirect('/dashboard')->with('warning', 'Anda tidak memiliki akses ke halaman Penerbit.');
+        }
 
         return view('penerbit/create', [
             'title'     => 'Penerbit',
@@ -59,6 +67,10 @@ class PenerbitController extends Controller
     public function edit(Penerbit $penerbit)
     {
         $profile = User::find(session('id'));
+
+        if ($profile->role != 'admin') {
+            return redirect('/dashboard')->with('warning', 'Anda tidak memiliki akses ke halaman Penerbit.');
+        }
 
         return view('penerbit/edit', [
             'title'     => 'Penerbit',

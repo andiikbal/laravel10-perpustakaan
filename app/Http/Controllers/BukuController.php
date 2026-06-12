@@ -21,6 +21,10 @@ class BukuController extends Controller
     {
         $profile = User::find(session('id'));
 
+        if ($profile->role != 'admin') {
+            return redirect('/dashboard')->with('warning', 'Anda tidak memiliki akses ke halaman Buku.');
+        }
+
         return view('buku/index', [
             'title'     => 'Buku',
             'profile'   => $profile,
@@ -33,6 +37,10 @@ class BukuController extends Controller
     public function create()
     {
         $profile = User::find(session('id'));
+
+        if ($profile->role != 'admin') {
+            return redirect('/dashboard')->with('warning', 'Anda tidak memiliki akses ke halaman Buku.');
+        }
 
         return view('buku/create', [
             'title'     => 'Buku',
@@ -67,6 +75,10 @@ class BukuController extends Controller
     public function edit(Buku $buku)
     {
         $profile = User::find(session('id'));
+
+        if ($profile->role != 'admin') {
+            return redirect('/dashboard')->with('warning', 'Anda tidak memiliki akses ke halaman Buku.');
+        }
 
         return view('buku/edit', [
             'title'     => 'Buku',

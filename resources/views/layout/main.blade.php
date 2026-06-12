@@ -35,7 +35,27 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    @include('layout/partials/logout_modal')
+    {{-- @include('layout/partials/logout_modal') --}}
+
+    <script>
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Yakin akan Logout ?',
+                text: "Anda akan keluar dari aplikasi!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, logout!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit form sesuai dengan id yang dikirim
+                    document.getElementById('logout-form').submit();
+                }
+            })
+        }
+    </script>
 
     @stack('actionModal')
 

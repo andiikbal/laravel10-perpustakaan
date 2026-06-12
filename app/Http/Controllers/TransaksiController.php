@@ -38,6 +38,10 @@ class TransaksiController extends Controller
     {
         $profile = User::find(session('id'));
 
+        if ($profile->role != 'user') {
+            return redirect('/pengajuan')->with('warning', 'Anda tidak dapat melakukan pengajuan.');
+        }
+
         return view('transaksi/create', [
             'title'     => 'Pengajuan',
             'profile'   => $profile,
