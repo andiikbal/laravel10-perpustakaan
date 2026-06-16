@@ -26,9 +26,17 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Data {{ $title }}</h6>
-            <a href="/buku/create" class="btn btn-primary btn-sm">
-                <span class="text">Tambah</span>
-            </a>
+            <div>
+                <a href="/buku/import" class="btn btn-success btn-icon-split btn-sm">
+                    <span class="text">Import</span>
+                </a>
+                <a href="/buku/export" class="btn btn-info btn-icon-split btn-sm">
+                    <span class="text">Export</span>
+                </a>
+                <a href="/buku/create" class="btn btn-primary btn-sm">
+                    <span class="text">Tambah</span>
+                </a>
+            </div>
         </div>
 
         <div class="card-body">

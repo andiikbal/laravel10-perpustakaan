@@ -35,6 +35,13 @@ Route::get('/penerbit/{penerbit}/edit', [PenerbitController::class, 'edit']);
 Route::put('/penerbit/{penerbit}/update', [PenerbitController::class, 'update']);
 Route::delete('/penerbit/{penerbit}', [PenerbitController::class, 'destroy']);
 
+// Penerbit Import
+Route::get('/penerbit/export', [PenerbitController::class, 'export']);
+Route::get('/penerbit/import', [PenerbitController::class, 'import']);
+Route::post('/penerbit/import', [PenerbitController::class, 'import_process']);
+Route::get('/penerbit/download-template', [PenerbitController::class, 'download_template']);
+
+
 // Buku
 Route::get('/buku', [BukuController::class, 'index']);
 Route::get('/buku/create', [BukuController::class, 'create']);
@@ -42,6 +49,12 @@ Route::post('/buku/store', [BukuController::class, 'store']);
 Route::get('/buku/{buku}/edit', [BukuController::class, 'edit']);
 Route::put('/buku/{buku}/update', [BukuController::class, 'update']);
 Route::delete('/buku/{buku}', [BukuController::class, 'destroy']);
+
+// Buku Import
+Route::get('/buku/export', [BukuController::class, 'export']);
+Route::get('/buku/import', [BukuController::class, 'import']);
+Route::post('/buku/import', [BukuController::class, 'import_process']);
+Route::get('/buku/download-template', [BukuController::class, 'download_template']);
 
 // Pengguna
 Route::get('/pengguna', [PenggunaController::class, 'index']);

@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BukuExport;
+use App\Exports\TemplateBukuExport;
+use App\Imports\BukuImport;
 use App\Models\Buku;
 use App\Models\Penerbit;
 use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BukuController extends Controller
 {
@@ -121,5 +125,51 @@ class BukuController extends Controller
 
         $buku->delete();
         return redirect('/buku')->with('success', 'Data Buku berhasil dihapus.');
+    }
+
+
+    // halaman import buku
+    public function import()
+    {
+        $profile = User::find(session('id'));
+
+        if ($profile->role != 'admin') {
+            return redirect('/dashboard')->with('warning', 'Anda tidak memiliki akses ke halaman Import Buku.');
+        }
+
+        return view('buku/import', [
+            'title'     => 'Buku',
+            'profile'   => $profile,
+        ]);
+    }
+
+
+    // proses import buku
+    public function import_process(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        $jumlah_penerbit = Penerbit::all()->count();
+        Excel::import(new BukuImport($jumlah_penerbit), $request->file('file'));
+
+        return redirect('/buku')->with('success', 'Data Buku berhasil diimport.');
+    }
+
+
+    // download template
+    public function download_template()
+    {
+        $penerbits = Penerbit::all();
+        return Excel::download(new TemplateBukuExport($penerbits), 'buku_template.xlsx');
+    }
+
+
+    // export buku
+    public function export()
+    {
+        $bukus = Buku::all();
+        return Excel::download(new BukuExport($bukus), 'buku_export.xlsx');
     }
 }

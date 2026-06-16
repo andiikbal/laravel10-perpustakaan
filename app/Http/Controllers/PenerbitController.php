@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PenerbitExport;
+use App\Exports\TemplatePenerbitExport;
+use App\Imports\PenerbitImport;
 use App\Models\Buku;
 use App\Models\Penerbit;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PenerbitController extends Controller
 {
@@ -106,5 +110,49 @@ class PenerbitController extends Controller
 
         $penerbit->delete();
         return redirect('/penerbit')->with('success', 'Data Penerbit berhasil dihapus.');
+    }
+
+
+    // halaman import penerbit
+    public function import()
+    {
+        $profile = User::find(session('id'));
+
+        if ($profile->role != 'admin') {
+            return redirect('/dashboard')->with('warning', 'Anda tidak memiliki akses ke halaman Import Penerbit.');
+        }
+
+        return view('penerbit/import', [
+            'title'     => 'Penerbit',
+            'profile'   => $profile,
+        ]);
+    }
+
+
+    // proses import penerbit
+    public function import_process(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new PenerbitImport, $request->file('file'));
+
+        return redirect('/penerbit')->with('success', 'Data Penerbit berhasil diimport.');
+    }
+
+
+    // download template penerbit
+    public function download_template()
+    {
+        return Excel::download(new TemplatePenerbitExport, 'penerbit_template.xlsx');
+    }
+
+
+    // export penerbit
+    public function export()
+    {
+        $penerbits = Penerbit::all();
+        return Excel::download(new PenerbitExport($penerbits), 'data_penerbit.xlsx');
     }
 }
